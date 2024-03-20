@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="kr">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- jquery 최신 사용 -->
+  <script  src="http://code.jquery.com/jquery-latest.min.js"></script>
+
+  <title>Document</title>
+</head>
+<body>
+
+  <div class="main">
+    <p id="loginTxt"></p>
+    <input id="userId" type="text" value="" placeholder="아이디">
+    <button id="loginBtn">로그인</button>
+    <button id="clear">초기화</button>
+  </div>
+
+  
+  <script>
+
+    const loginBtn = document.querySelector('#loginBtn');
+    const loginInputEl = document.querySelector('#userId')
+    const clearBtn = document.querySelector('#clear');
+
+    //저장된 아이디 값 불러오기
+    const saveLoginCheck = () => {
+      console.log('로그인값 불러오기')
+      const saveLoginValue = window.localStorage.getItem('userId');
+      console.log('saveLoginValue', saveLoginValue)
+      if(saveLoginValue){
+        loginInputEl.value = saveLoginValue;
+      }
+    }
+
+    //로그인 확인 체크
+    const isLoginCheck = () => {
+      console.log('아이디값',localStorage.getItem('userId'))
+
+      const isLogin = sessionStorage.getItem('isLogin');
+      const loginTxt = document.querySelector('#loginTxt')
+
+      if(isLogin && (isLogin === 'true')){
+        console.log('OK')
+        loginTxt.textContent = '세션 확인 OK'
+      } else {
+        console.log('NO')
+        loginTxt.textContent = '세션 확인 NO'
+      }
+    }
+
+    
+    
+    //로그인 버튼 클릭 Event
+    loginBtn.addEventListener('click', function(){
+      console.log('버튼 클릭');
+      sessionStorage.setItem('isLogin', true);
+      localStorage.setItem('userId', loginInputEl.value)
+      isLoginCheck();
+    })
+
+    clearBtn.addEventListener('click', function(){
+      sessionStorage.clear();
+      localStorage.clear()
+    })
+
+    isLoginCheck();
+    saveLoginCheck();
+
+  </script>
+
+</body>
+</html>
